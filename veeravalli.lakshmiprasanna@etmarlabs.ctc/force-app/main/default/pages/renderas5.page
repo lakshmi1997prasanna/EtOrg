@@ -1,0 +1,43 @@
+<apex:page controller="pdfconvert" renderAs="pdf" docType="html-5.0" applyBodyTag="false">
+   <head>
+        <style> 
+          table {
+   border-collapse: collapse;
+            width :100%;
+           
+} 
+            h1{
+            color: red;
+    text-align: center;
+            }
+            th {
+            height: 35px;
+             padding: 4px;
+             background-color:green;
+            color:white;
+            border: 1px solid red;
+}
+           td {
+            height:35px;
+            padding: 4px;
+            border: 1px solid blue;
+            }
+        </style>
+    </head> 
+ <body>
+     <h1>Accounts</h1>
+     <table>
+ 	<th> Account Name</th>
+        	<th> Account phone</th>
+         <apex:repeat value="{!accountlist}" var="acc">
+             <tr>  
+            <td>{!acc.name}</td>
+             <td>{!acc.phone}</td>
+                 </tr>  
+   
+                </apex:repeat>
+
+       </table>
+    </body>
+    
+</apex:page>

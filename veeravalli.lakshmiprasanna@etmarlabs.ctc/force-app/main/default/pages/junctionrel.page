@@ -1,0 +1,19 @@
+<apex:page standardController="Lead" extensions="junctioncontroller">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:inputText value="{!name}"/>       
+        </apex:pageBlock> 
+        <apex:commandButton action="{!searchpositionfromname}" value="Search"/>      
+        <apex:pageBlock >  
+            <apex:pageBlockTable value="{!wrappercat}" var="wa" id="acctable">            
+                <apex:column >
+                    
+                    <apex:inputCheckbox selected="{!wa.checked}" title="select"/>
+                    
+                </apex:column>
+                <apex:column value="{!wa.c.Name}" />                 
+            </apex:pageBlockTable> 
+            <apex:commandButton action="{!Addtojnobj}" value="Add"/>      
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

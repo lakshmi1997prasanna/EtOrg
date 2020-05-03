@@ -1,0 +1,21 @@
+<apex:page Controller="AccountAndContact">
+    <apex:form >
+        <apex:pageBlock >
+        <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Refresh" action="{!refresh}" reRender="acc,con"/>
+            </apex:pageBlockButtons>             
+            <apex:pageBlockSection title="Accounts">
+                <apex:pageBlockTable value="{!accountlist}" var="acc" id="acc">
+                    <apex:column value="{!acc.name}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+           
+            <apex:pageBlockSection title="Contacts">
+                <apex:pageBlockTable value="{!contactlist}" var="con" id="con">
+                    <apex:column value="{!con.FirstName}" />
+                    <apex:column value="{!con.LastName}" />
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>  
+         </apex:pageBlock>          
+    </apex:form>
+</apex:page>

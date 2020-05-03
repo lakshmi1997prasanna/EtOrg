@@ -1,0 +1,31 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction,force:hasSObjectName" controller='massdelete' access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="AccIdSet" type="String[]"/>
+    <aura:attribute name="filterIdVal" type="String"/>
+    <aura:attribute name="isDelete" type="Boolean" default="false"/>
+    <div class="demo-only">
+        <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" style='width:39%'>
+                
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete Account</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-align_absolute-center">
+                        <aura:if isTrue="{!v.isDelete}">
+                            <div class="slds-form-element">    
+                                <button class="slds-button slds-button--brand" onclick="{!c.deleteAcc}">Delete</button>
+                            </div>
+                        &nbsp;&nbsp;
+                        </aura:if>
+                        <div class="slds-form-element">    
+                            <button class="slds-button slds-button--brand" onclick="{!c.closePopUp}">Close</button>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

@@ -1,0 +1,20 @@
+<apex:page sidebar="false" showHeader="false">
+    <apex:form >
+    <div class="header">     
+   <apex:commandLink action="https://www.flipkart.com" target="Blank">
+        <apex:image value="{!$Resource.headerflipkart}" width="1350" height="200"></apex:image>
+        </apex:commandLink>
+       </div>            
+               <div class="sidebar">
+            <apex:commandLink action="https://www.facebook.com/prasanna.lakshmi.16" target="Blank">
+        <apex:image value="{!$Resource.lakshmi}" width="200" height="250"></apex:image>
+                 </apex:commandLink>
+             </div>
+    <div class="footer">
+            <apex:commandLink action="https://www.google.com" target="Blank">
+        <apex:image value="{!$Resource.footergoogle}" width="1350" height="195"></apex:image>
+                </apex:commandLink>
+       </div>
+       
+        </apex:form>
+</apex:page>

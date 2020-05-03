@@ -1,0 +1,44 @@
+<apex:page standardController="Account" sidebar="false"  standardStylesheets="false" showHeader="false" showChat="false">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/>	
+    <script src="/soap/ajax/27.0/connection.js" type="text/javascript"/>
+        <script src="/soap/ajax/27.0/apex.js" type="text/javascript"/>
+            <a href="https://www.amdoren.com">Amdoren</a>
+            <body style="margin:0;padding:0;font:bold 12px arial, sans-serif">
+                <p id ="timeOfLocation"></p>
+                </body>
+                <script type="text/javascript">                    
+                    $(document).ready(
+                    function(){
+                        //Retrieving the Account location
+                         var Latitude  = {!Account.BillingLatitude};//6.0535185;
+                        var Longitude =  {!Account.BillingLongitude};//80.22097729999996; 
+                        var billingcountry = {!Account.BillingCountry};
+                        var billingstate = {!Account.BillingState};
+                       /* var accid = '{!Account.Id}';
+                        result = sforce.connection.query('SELECT ID,BillingLatitude,BillingLongitude FROM Account WHERE ID=\'' + accid + '\'');
+                        console.log('result'+result);
+                        var Latitude = result[0].BillingLatitude ;
+                        var Longitude = result[0].BillingLongitude ; */
+                        getTimeUsingLatLng(billingcountry,billingstate);
+                        
+                        
+                        function getTimeUsingLatLng(billingcountry,billingstate){
+                            // $("#timeOfLocation").html("Local time is XYZ"+'('+lat+')(' + lng+')');
+                            $.ajax({
+                                url:"https://www.amdoren.com/api/timezone.php?api_key=kYqNyBSdbtWBEREPiLSV3ahsMwDiuJ&loc=New York",
+                                cache: false,
+                                type: "GET",
+                                dataType :"json"
+                                async: true,
+                            }).done(function(response){
+                                if(response.timezone != null){
+                                    ("#timeOfLocation").html("TimeZone is"+ + response.timezone);
+                                }
+                            });
+                        }
+                        
+                    });
+    </script>
+    
+</apex:page>

@@ -1,0 +1,33 @@
+<apex:page controller="AccConWrapper">
+    <apex:form >
+       <apex:pageMessages />
+        <apex:pageBlock id="ThePage">
+             
+            <center> 
+                <apex:commandButton value="Cancel" action="{!cancel}" />
+                <apex:commandButton value="Save" action="{!Save}" />
+            </center>
+            <!--apex:pageBlockSection -->
+            <apex:pageBlockTable value="{!lstSetController}" var="wa" id="tableData">
+                <apex:column >
+                    <apex:inputCheckbox title="select" selected="{!wa.checked}" >
+                        <apex:actionSupport event="onchange"  reRender="tableData"  />
+                    </apex:inputCheckbox>
+                </apex:column>
+                <apex:column value="{!wa.a.Name}" /> 
+                <!--  <apex:column value="{!wa.c.Phone}" /> -->
+                <apex:column headerValue="PrimaryContactPhone">
+                    <apex:inputfield value="{!wa.c.Phone}" rendered="{!wa.checked}" />
+                    <apex:outputfield value="{!wa.c.Phone}" rendered="{!(!wa.checked)}"/>
+                </apex:column> 
+            </apex:pageBlockTable>
+            <apex:outputPanel >
+                <apex:commandButton value="<<Previous" action="{!previous}" rendered="{!hasPrevious}" reRender="ThePage" />
+                <apex:outputText value="      page of "> {!pagenum} </apex:outputText>
+                <apex:outputText value="   ">{!totalpages}</apex:outputText>
+                <apex:commandButton value="Next >>" action="{!next}" rendered="{!hasNext}" reRender="ThePage" />
+            </apex:outputPanel>  
+            <!--/apex:pageBlockSection-->
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

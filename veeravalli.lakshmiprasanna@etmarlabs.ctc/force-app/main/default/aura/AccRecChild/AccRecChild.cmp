@@ -1,0 +1,32 @@
+<aura:component controller="accrec" >
+    <aura:attribute name="contact" type="Contact"
+                    default="{
+                             'SObjectType': 'Contact',
+                             'FirstName': '',
+                             'LastName': '',
+                             'Email': '',
+                             'Phone': ''
+                             }">            
+    </aura:attribute>
+    <aura:attribute name="recid" type="Id" />
+    <aura:registerEvent name="cmpAccEvent" type="c:AccConEvent"/>
+   <lightning:card iconName="standard:contact" title="Create Contact" >
+            <lightning:input label="First Name" value="{!v.contact.FirstName}" />
+            <lightning:input label="Last Name" required="true" value="{!v.contact.LastName}" />
+            <lightning:input label="Email" value="{!v.contact.Email}"/>
+            <lightning:input label="Phone" value="{!v.contact.Phone}" />
+            <lightning:button onclick="{!c.createContact}" variant="brand" >Save</lightning:button>
+            </lightning:card>
+    <!--lightning:card iconName="standard:contact" title="Create Contact" >
+        <lightning:recordEditForm 
+                                  objectApiName="Contact"  onsuccess="{!c.handleSuccess1}" aura:id ="form1" >
+            <lightning:messages />
+            <lightning:inputField fieldName="FirstName"  />
+            <lightning:inputField fieldName="LastName" />
+            <lightning:inputField fieldName="Phone" />
+            <lightning:inputField fieldName="AccountId" value="{!v.recid}" />
+            <lightning:button name="contactModal" label="New Contact" type ="Submit" />
+        </lightning:recordEditForm>
+    </lightning:card>
+    <lightning:button label="Create Contact" variant="brand" onclick="{!c.createContact}"/>-->
+</aura:component>

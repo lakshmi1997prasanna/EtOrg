@@ -1,0 +1,18 @@
+<apex:page controller="AccountEmail" >
+    <apex:form >
+         <apex:pageMessages />
+        <apex:pageBlock >
+            <apex:inputText value="{!email}"/>
+        </apex:pageBlock>      
+        <apex:commandButton action="{!searchforAccount}" value="search" reRender="accsearch"/>
+        <apex:pageBlock title="Account">            
+                 <apex:pageBlockTable value="{!accdetail}" var="acc" id="accsearch">
+                     <apex:column >
+                     <apex:commandLink value="{!acc.Name}" action="{!contactdetail}" reRender="cont" >
+                         <apex:param value="{!acc.Id}" name="idForConts" assignTo="{!recid}"/>
+                         </apex:commandLink>
+                         </apex:column>                   
+                     </apex:pageBlockTable>  
+            </apex:pageBlock>
+             </apex:form>  
+</apex:page>

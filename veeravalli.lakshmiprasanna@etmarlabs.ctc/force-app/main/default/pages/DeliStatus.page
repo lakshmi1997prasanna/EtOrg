@@ -1,0 +1,77 @@
+<apex:page controller="deliverylist" sidebar="false">
+    <apex:form >
+        <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete?');
+        }
+        </script>
+        <apex:pageMessages />
+        <apex:pageBlock title="Deliveries" >                       
+            <apex:pageBlockSection >
+                <apex:selectList value="{!selectedState}" size="1" required="true">
+                    STATES<apex:selectOptions value="{!deliveryStates}"/>
+                </apex:selectList>
+                
+            </apex:pageBlockSection>
+            <apex:commandButton value="search" action="{!dosearch}" reRender="deli" /> 
+            <apex:pageBlockSection id="del" columns="1" >
+                <apex:variable var="rowNumber" value="{!0}"/>
+                
+                <apex:pageBlockTable value="{!deliList}" var="d" >  
+                    <apex:column headerValue="Action" >
+                        <apex:outputLink rendered="{!d.id!=null && d.Status__c!='Delivered'}"  value="{!URLFOR($Action.Delivery__c.Delete, d.Id)}" onclick="if(!confirmDelete()) return false;">
+                            Delete
+                        </apex:outputLink>
+                        
+                        <apex:outputLink rendered="{!d.id!=null}" value="{!URLFOR($Action.Delivery__c.Edit, d.Id)}" target="BLANK" >
+                            Edit
+                        </apex:outputLink> 
+                    </apex:column> 
+                    
+                    <apex:column rendered="{!d.id!=null}" value="{!d.Name}" headerValue="Name"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="Name"><apex:inputField value="{!d.name}" /></apex:column>
+                    
+                    <apex:column rendered="{!d.id!=null}" value="{!d.Country__c}" headerValue="Country"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="Country"><apex:inputField value="{!d.Country__c}" /></apex:column>
+                    
+                    <apex:column rendered="{!d.id!=null}" value="{!d.City__c}" headerValue="City"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="City"><apex:inputField value="{!d.City__c}" /></apex:column> 
+                    
+                    <apex:column rendered="{!d.id!=null}" value="{!d.Zip_Code__c}" headerValue="ZipCode"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="ZipCode"><apex:inputField value="{!d.Zip_Code__c}" /></apex:column>
+                    
+                    <apex:column rendered="{!d.id!=null}"value="{!d.State__c}" headerValue="State"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="State"><apex:inputField value="{!d.State__c}" /></apex:column>
+                    
+                    <apex:column rendered="{!d.id!=null}" value="{!d.Status__c}" headerValue="Status"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="Status"><apex:inputField value="{!d.Status__c}" /></apex:column>
+                    
+                    <apex:column rendered="{!d.id!=null}"value="{!d.Delivery_Date__c}" headerValue="DeliveryDate"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="DeliveryDate"><apex:inputField value="{!d.Delivery_Date__c}" /></apex:column>
+                    
+                    <apex:column rendered="{!d.id!=null}"value="{!d.Delivery__c}" headerValue="Account"/>
+                    <apex:column rendered="{!d.id=null}" headerValue="Account"><apex:inputField value="{!d.Delivery__c}" /></apex:column>
+                    
+                    
+                    <apex:column >
+                        <apex:outputText value="{0}" style="text-align:center;"> 
+                            <apex:param value="{!rowNumber+1}" /> 
+                        </apex:outputText>
+                    </apex:column> 
+                    
+                    <apex:column >
+                        <apex:commandButton value="Delete" action="{!deleteRow}" reRender="deli" rendered="{!d.id=null}"  immediate="true">
+                            <apex:param name="rowIndex" value="{!rowNumber}"/>
+                        </apex:commandButton>
+                        <apex:variable var="rowNumber" value="{!rowNumber+1}"/>
+                    </apex:column>
+                    
+                </apex:pageBlockTable>
+                
+            </apex:pageBlockSection>
+            <apex:commandLink value="AddRow" action="{!AddRow}" reRender="deli" /> 
+            <apex:commandButton value="Save" action="{!save}" />
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

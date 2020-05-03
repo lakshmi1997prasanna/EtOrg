@@ -1,0 +1,19 @@
+<apex:page controller="language">
+    {!language1}
+    <apex:form >
+        <apex:pageBlock title="Assignments">
+          <apex:pageBlockSection >
+             <apex:selectList value="{!language1}" size="4" required="true" multiselect="true" >
+                 <apex:selectOptions value="{!assignlan}" />             
+              </apex:selectList>            
+            </apex:pageBlockSection>
+            <apex:commandButton value="search" action="{!dosearch}" reRender="lan" /> 
+            <apex:pageBlockSection >
+                <apex:pageBlockTable value="{!assignmentlist}" var="l" id="lan">
+                    <apex:column value="{!l.Name}" headerValue="Name"/>
+                    <apex:column value="{!l.Languagesknown__c}" headerValue="LanguageKnown"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

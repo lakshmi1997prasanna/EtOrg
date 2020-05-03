@@ -1,0 +1,56 @@
+<aura:component controller="AccountLighting" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="account" type="Account[]" />
+    <aura:attribute name="accedit" type="Account" />
+    <aura:attribute name="editAccId" type="id" />
+    <aura:attribute name="isEdit" type="boolean"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead>
+            <tr class="slds-text-title_caps">
+                <th scope="col" class="thCss">
+                    <div class="slds-truncate" title="Action">Account Name</div>
+                </th>
+                <th scope="col" class="thCss">
+                    <div class="slds-truncate" title="Name">Phone</div>
+                </th>
+                <th scope="col" class="thCss">
+                    <div class="slds-truncate" title="Image">Image</div>
+                </th>
+                <th scope="col" class="thCss">
+                    <div class="slds-truncate" title="Action">Action</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.account}" var="acc"> 
+                <tr>
+                    <th scope="row" >
+                        <div class="slds-truncate" title="Name">{!acc.Name}
+                        </div>
+                    </th>
+                    <th scope="row" >
+                        <div class="slds-truncate" title="Phone">{!acc.Phone}
+                        </div>                        
+                    </th>
+                    <th scope="row" >
+                        <div class="slds-truncate" title="Image">
+                            <img alt="User-added image" src="{! 'https://veeravalli-lakshmi-dev-ed--c.ap4.content.force.com/servlet/rtaImage?eid='+acc.Id+'&amp;feoid=00N6F00000X51cX&amp;refid=0EM6F000002O3B5'}"></img>
+                        </div>                        
+                    </th>
+                    <td>
+                        <button class="slds-button slds-button_success" type="button"   onclick="{!c.edit}" id="{!acc.Id}">Edit</button> &nbsp; 
+                    </td>  
+                </tr>
+            </aura:iteration>	
+        </tbody>
+    </table>
+    <aura:renderIf isTrue="{!v.isEdit}">
+        <div class="Record-Details"> 
+            <lightning:card iconName="standard:account" title="{!v.accedit.Name}" footer="Card Footer">
+                <div class="slds-p-horizontal--small">
+                    <lightning:formattedText title="Phone" value="{!v.accedit.Phone}" />
+                </div>
+            </lightning:card>
+        </div>
+    </aura:renderIf>
+</aura:component>

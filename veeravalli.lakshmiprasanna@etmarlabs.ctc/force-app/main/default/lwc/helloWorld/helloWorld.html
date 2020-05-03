@@ -1,0 +1,35 @@
+<template>
+    <lightning-card title="HelloWorld" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <p>Hello, {greeting}!</p>
+            <lightning-input label="Name" value={greeting} onchange={changeHandler}></lightning-input>
+        </div>
+    </lightning-card>
+    <lightning-card title="HelloWorld" icon-name="custom:custom14">
+    <lightning-record-edit-form record-id={recordId} object-api-name="Account" >
+        <lightning-input-field field-name="Name">
+        </lightning-input-field>
+        <lightning-input-field field-name="AccountNumber">
+        </lightning-input-field>
+        <lightning-input-field field-name="E_mail__c">
+        </lightning-input-field>
+        <lightning-file-upload
+                label="Attach receipt"
+                name="fileUploader"
+                accept={acceptedFormats}
+                record-id={recordId}
+                multiple>
+        </lightning-file-upload>
+                <lightning-button
+            class="slds-m-top_small"
+            variant="brand"
+            type="submit"
+            name="update"
+            label="Update"></lightning-button>
+        </lightning-record-edit-form>
+    </lightning-card>
+    <lightning-card title="Ralated Contacts" icon-name="custom:custom63">
+            <lightning-datatable data={data} columns={columns} key-field="Id">
+            </lightning-datatable>
+    </lightning-card>
+</template>

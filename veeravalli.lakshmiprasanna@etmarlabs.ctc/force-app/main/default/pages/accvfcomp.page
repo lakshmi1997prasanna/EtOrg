@@ -1,0 +1,8 @@
+<apex:page tabStyle="Account"> 
+    <apex:pageBlock >
+        <apex:pageBlockSection title="Component" >
+            <c:myComponent textValue="This Text is blue" textColor="blue" />
+            <c:myComponent textValue="But this is red" textColor="red" />
+            </apex:pageBlockSection>
+    </apex:pageBlock>     
+</apex:page>

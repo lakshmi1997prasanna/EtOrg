@@ -1,0 +1,19 @@
+<apex:page standardController="Opportunity" recordSetVar="test">
+    <apex:includeLightning />
+
+ <div id="MassDelete" />
+<script>
+ debugger;
+ 
+ $Lightning.use("c:OpporQuickApp", function() {
+            $Lightning.createComponent(
+                "c:OpporQuick",
+                
+                "MassDelete",
+                function(cmp) {
+                    console.log("Component created!");
+                    console.log(cmp);
+                });
+            });
+ </script>
+</apex:page>

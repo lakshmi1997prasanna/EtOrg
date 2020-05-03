@@ -1,0 +1,55 @@
+<apex:page standardController="Contact" recordSetVar="contacts">
+    <apex:form >
+        <apex:pageBlock title="Contacts List" id="contacts_list">
+            <apex:actionRegion >
+                
+            
+            Filter: 
+            <apex:selectList value="{!filterId }" size="1">
+                <apex:selectOptions value="{!listViewOptions}"/>
+                <apex:actionSupport event="onchange" reRender="contacts_list"  />
+            </apex:selectList>
+                </apex:actionRegion>
+            <!-- Contacts List -->
+            <apex:pageBlockTable value="{!contacts}" var="ct">
+                 <apex:column headerValue="Action" >
+            <apex:outputLink value="{!URLFOR($Action.Contact.Delete, ct.Id)}">
+                  Delete
+            </apex:outputLink>
+                <apex:outputLink value="{!URLFOR($Action.Contact.Edit, ct.Id)}" target="BLANK">
+                  Edit
+            </apex:outputLink>       
+            </apex:column>
+                <apex:column headervalue="FirstName ">
+                <apex:inputField value="{!ct.FirstName}" />
+                 </apex:column>
+                <apex:column headerValue="LastName">
+                <apex:inputField value="{! ct.LastName }" />
+                    </apex:column>
+                <apex:column headerValue="Email">
+                <apex:inputField value="{! ct.Email }"/>
+                    </apex:column>
+                <apex:column headerValue="AccountName">
+                <apex:inputField value="{! ct.Account.Name }"/>
+                     </apex:column>
+                <apex:column headervalue="Birthdate"> 
+                   <apex:inputfield value="{!ct.Birthdate}"/> 
+                     </apex:column>
+                    <apex:column headervalue="Mobile"> 
+                   <apex:inputfield value="{!ct.MobilePhone}"/>               
+               </apex:column>
+            </apex:pageBlockTable> 
+            <apex:pageblockbuttons location="top">
+               <apex:commandButton value="Save" action="{!save}"/>
+               <apex:commandButton value="Quick Save" action="{!quicksave}"/>
+                <apex:commandButton value="Cancel" action="{cancel}" />
+               </apex:pageblockbuttons>
+            <apex:pageblockButtons location="bottom">
+        <apex:outputPanel id="myButtons">
+            <apex:commandButton value="Previous" action="{!Previous}" immediate="true"/>
+            <apex:commandButton value="Next" action="{!Next}" immediate="true"/>
+        </apex:outputPanel>
+    </apex:pageblockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

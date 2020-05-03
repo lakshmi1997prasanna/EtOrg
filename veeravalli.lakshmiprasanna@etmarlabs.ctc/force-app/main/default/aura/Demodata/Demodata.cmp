@@ -1,0 +1,8 @@
+<aura:component controller="DemoLightning" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="accList" type="List"/>
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}"/>
+    <aura:iteration items="{!v.accList}" var="a">
+        <p>{!a.Name}</p>
+        <p>{!a.Phone}</p>
+    </aura:iteration>
+</aura:component>

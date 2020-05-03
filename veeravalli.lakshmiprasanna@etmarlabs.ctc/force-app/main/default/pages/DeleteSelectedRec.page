@@ -1,0 +1,22 @@
+<apex:page standardController="Account" action="{!onclick}" extensions="DeleteController" recordSetVar="Accrec">
+    <apex:includeLightning />
+
+ <div id="MassDelete" />
+
+ <script>
+ debugger;
+ var attributeList = "{!accIds}";
+ var filterId = "{!filterId}";
+ $Lightning.use("c:DeleteSelctedRecsApp", function() {
+            $Lightning.createComponent(
+                "c:DeleteSelctedRecs",
+                {"AccIdSet":attributeList,"filterIdVal":filterId},
+                "MassDelete",
+                function(cmp) {
+                    console.log("Component created!");
+                    console.log(cmp);
+                });
+            });
+ </script>
+    
+</apex:page>

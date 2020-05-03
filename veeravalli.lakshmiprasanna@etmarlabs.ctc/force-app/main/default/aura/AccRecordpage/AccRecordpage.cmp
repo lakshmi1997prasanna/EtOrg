@@ -1,0 +1,106 @@
+<aura:component controller="accrec" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="accedit" type="Account"/>
+    <aura:attribute name="contacts" type="list" />
+    <aura:attribute name="isDetail" type="boolean"/>
+    <aura:attribute name="isEdit" type="boolean"/>
+    <aura:attribute name="isDisplayCon" type="boolean"/>
+    <aura:attribute name="contact" type="Contact"
+                    default="{
+                             'SObjectType': 'Contact',
+                             'FirstName': '',
+                             'LastName': '',
+                             'Email': '',
+                             'Phone': ''
+                             }">            
+    </aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="cmpAccEvent" event="c:AccConEvent" action="{!c.handleComponentEvent}"/> 
+    <lightning:card iconName="standard:account" class="slds-text-heading_small"  title="{!v.recordId.Name}" >
+        <aura:set attribute="actions">
+            <lightning:button label="Edit" onclick="{!c.edit}"/>
+        </aura:set>
+        <p class="slds-p-horizontal_small">
+            <div>Phone:</div>
+            <lightning:formattedText title="Phone" value="{!v.recordId.Phone}" />
+        </p>
+    </lightning:card>
+    &nbsp;&nbsp;&nbsp;
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_6-of-12">
+            <div class="slds-table--header-fixed_container" title="Account Details">
+                <aura:if isTrue="{!v.isDetail}">
+                    <div class="slds-scrollable_y" style="height:100%;">
+                        <force:recordView  recordId="{!v.recordId}"/>
+                    </div>
+                </aura:if>
+            </div>
+            <div class="slds-table--header-fixed_container" title="Account Edit">
+                <aura:if isTrue="{!v.isEdit}">
+                    <div class="slds-scrollable_y" style="height:100%;">
+                        <force:recordEdit aura:id="edit" recordId="{!v.recordId}"/>
+                        <lightning:button label="Save" variant="brand" onclick="{!c.save}"/>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        <div class="slds-col slds-size_6-of-12 ">
+            <div class="slds-table--header-fixed_container" style="height:100%;">
+                <lightning:card iconName="standard:contact" title="Related Contacts" >
+                </lightning:card>
+            </div>
+            <aura:if isTrue="{!v.isDisplayCon}">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate" title="Name">Name</div>
+                    </th>
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate" title="Name">Phone</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.contacts}" var="Con"> 
+                    <tr>
+                        <th scope="row" >
+                            <div class="slds-truncate" title="{!Con.Name}">{!Con.Name}</div>
+                        </th>
+                        <th scope="row" >
+                            <div class="slds-truncate" title="{!Con.Phone}">{!Con.Phone}</div>
+                        </th>
+                    </tr>
+                </aura:iteration>	
+            </tbody>
+                <aura:set attribute="else">
+                    <h5 class="slds-text-heading_small slds-align_absolute-center">No Related Contacts</h5>
+                </aura:set>
+                </table>
+            </aura:if>
+            &nbsp;&nbsp;
+            <c:AccRecChild recid = "{!v.recordId}"/>
+            &nbsp;&nbsp;
+            <!-- <lightning:card iconName="standard:contact" title="Create Contact" >
+                <lightning:recordEditForm aura:id="recordViewForm"
+                                          objectApiName="Contact">
+                    <lightning:messages />
+                    <lightning:inputField fieldName="FirstName"  />
+                    <lightning:inputField fieldName="LastName" />
+                    <lightning:inputField fieldName="Phone" />
+                    <lightning:inputField fieldName="AccountId" value="{!v.accedit.Id}" />
+                    <lightning:button variant="brand" label="Save"  type="submit" />
+                    
+                </lightning:recordEditForm>
+            </lightning:card>
+            <lightning:card iconName="standard:contact" title="Create Contact" >
+            <lightning:input label="First Name" value="{!v.contact.FirstName}" />
+            <lightning:input label="Last Name" required="true" value="{!v.contact.LastName}" />
+            <lightning:input label="Email" value="{!v.contact.Email}"/>
+            <lightning:input label="Phone" value="{!v.contact.Phone}" />
+            <lightning:button onclick="{!c.createContact}" variant="brand" >Save</lightning:button>
+            </lightning:card-->
+        </div>
+    </div>
+    
+</aura:component>

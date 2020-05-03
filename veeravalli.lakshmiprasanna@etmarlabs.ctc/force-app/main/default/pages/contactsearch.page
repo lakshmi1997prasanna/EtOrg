@@ -1,0 +1,19 @@
+<apex:page controller="ContactSearchCtrl">
+    <apex:form >
+        <apex:pageMessages />
+        <apex:pageBlock >
+
+            <apex:inputText value="{!emailId}"/>
+
+        </apex:pageBlock>
+
+        <apex:commandButton action="{!searchContactFromEmail}" value="Search"/>
+  
+        <apex:pageBlock >
+            <apex:outputField value="{!contactObj.Name}"/>
+                
+             
+           
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

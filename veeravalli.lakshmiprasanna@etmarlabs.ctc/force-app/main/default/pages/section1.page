@@ -1,0 +1,12 @@
+<apex:page controller="hideandseek">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection title="A" >
+                <apex:commandbutton action="{!go}" value="go" rendered="{!showHide}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="B" >
+                <apex:commandbutton action="{!go1}" value="go" rendered="{!!showHide}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

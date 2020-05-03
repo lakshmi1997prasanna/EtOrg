@@ -1,0 +1,80 @@
+<aura:component controller="inlineditSave" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="AccountList" type="account[]" />
+    <aura:attribute name="showSaveCancelBtn" type="boolean" default="false" description="flag for rendered save and cancel buttons in aura:if "/>
+    
+       
+
+    
+        <div class="slds-m-around_large">
+    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead>
+            <tr class="slds-text-title--caps">
+                <th scope="col" ><div class="slds-truncate" title="Action">Action</div></th>
+                <th scope="col" ><div class="slds-truncate" title="Account Name">Account Name</div></th>
+                <!-- th scope="col"><div class="slds-truncate" title="Action">Action</div></th -->
+            </tr>
+        </thead>
+        
+        <tbody>
+            <aura:iteration items="{!v.AccountList}" var="acc">
+                <!-- Child Lightning Component --> 
+                <c:inlineEditRow singleRec="{!acc}"
+                                 showSaveCancelBtn="{!v.showSaveCancelBtn}"
+                                 />
+            </aura:iteration>
+            <!--### display all records of AccountList attribute one by one by aura:iteration ###-->
+            <!-- <aura:iteration items="{!v.AccountList}" var="acc" >
+                
+                <tr>
+                    <td ondblclick="{!c.inlineEditName}" class="{! v.showErrorClass == true ? 'slds-cell-edit slds-has-error' : 'slds-cell-edit'}">
+                        <aura:if isTrue="{!v.nameEditMode == false}">
+                            <span class="slds-truncate" title="Name">{!acc.Name}</span>
+                            <lightning:button label="Edit" onclick="{!c.inlineEditName}"/>
+                            
+                            
+                            <aura:set attribute="else">
+                                <section  tabindex="0" class="slds-popover slds-popover_edit" role="dialog" style="position: absolute; top: 0px">
+                                    <div class="slds-popover__body">
+                                        <div class="slds-form-element slds-grid slds-wrap">
+                                            <div class="slds-form-element__control slds-grow">
+                                                <ui:inputText class="slds-input inputFieldWidth"
+                                                              labelClass="slds-form-element__label slds-form-element__label_edit slds-no-flex"
+                                                              aura:id="inputId"
+                                                              blur="{!c.closeNameBox}"
+                                                              change="{!c.onNameChange}"
+                                                              required="true"
+                                                              label="Name"
+                                                              value="{!acc.Name}" />
+                                                
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                   <span id="form-end" tabindex="0"></span>
+                                    <lightning:buttonGroup class="slds-m-around_medium">
+                                        <lightning:button label="Cancel" onclick="{!c.cancel}"/>
+                                        <lightning:button label="Save" onclick="{!c.Save}" variant="success"/>
+                                    </lightning:buttonGroup>
+                                </section>  
+                            </aura:set>  
+                        </aura:if>
+                        
+                    </td>
+                     
+                </tr>
+            </aura:iteration>
+            -->
+        </tbody>
+    </table>
+   
+     <aura:if isTrue="{!v.showSaveCancelBtn}">
+        
+        <lightning:buttonGroup class="slds-m-around_medium">
+            <lightning:button label="Cancel" onclick="{!c.cancel}"/>
+            <lightning:button label="Save" onclick="{!c.Save}" variant="success"/>
+        </lightning:buttonGroup> 
+    </aura:if> 
+     </div>
+</aura:component>

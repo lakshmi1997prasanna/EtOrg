@@ -1,0 +1,21 @@
+<apex:page standardController="Account">
+    <apex:form >
+        <script>
+            function phonenumber(num){
+        if(document.getElementById(num).value.length > 10){
+             document.getElementById(num).value = document.getElementById(num).value.substring(0, 10);
+        }
+    }
+       </script>
+        <apex:pageBlock >
+            <apex:pageBlockSection title="Account Info">
+                <apex:inputField value="{!Account.Name}" />
+                <apex:inputField value="{!Account.AccountNumber}"/>
+                <apex:inputField value="{!Account.Phone}" id="num" onkeydown="phonenumber('{!$Component.num}');" onkeyup="phonenumber('{!$Component.num}');"/>                          
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="top">
+               <apex:commandButton value="Save" action="{!save}"/>
+           </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

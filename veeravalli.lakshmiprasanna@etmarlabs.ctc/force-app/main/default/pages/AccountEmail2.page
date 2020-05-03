@@ -1,0 +1,9 @@
+<apex:page controller="AccountEmail2">
+    <apex:form >
+        <apex:pageBlock title="Contacts">
+            <apex:pageBlockTable value="{!conlist}" var="con" id="cont" >
+                <apex:column value="{!con.Name}" />                
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

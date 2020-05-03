@@ -1,0 +1,17 @@
+<apex:page Controller="AccountDrop">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection >
+                    <apex:selectList value="{!selectedrecid}" size="1">
+                       Select Account : <apex:selectOptions value="{!selectedlist}"/>
+                        <apex:actionSupport action="{!getrelcon}" event="onchange" reRender="con"/>
+                    </apex:selectList>
+            </apex:pageBlockSection>
+            <apex:pageblock >
+            <apex:pageBlockTable value="{!relcontact}" id="con" var="a">
+                <apex:column value="{!a.Name}"/>
+            </apex:pageBlockTable>
+            </apex:pageblock>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

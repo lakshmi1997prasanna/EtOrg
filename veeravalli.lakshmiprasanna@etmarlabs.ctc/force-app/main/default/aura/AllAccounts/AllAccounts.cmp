@@ -1,0 +1,182 @@
+<aura:component controller="samplePagerCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="Accounts" type="Account[]"/>
+    <aura:attribute name="page" type="integer" description="using for store page Number"/>
+    <aura:attribute name="pages" type="integer" description="using for store All Pages page Number"/>
+    <aura:attribute name="total" type="integer" description="total records count store "/>
+    <aura:attribute name="mycolumns" type="List"/>
+    <aura:attribute name="isEdit" type="boolean"/>
+    <aura:attribute name="isConfirm" type="boolean"/>
+    <aura:attribute name="editAccId" type="id" />
+    <aura:attribute name="parentId" type="Id" />
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <!-- 'fileName' attribute for display the selected file name -->  
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <aura:attribute name="searchResult" type="List" description="use for store and display account list return from server"/>
+    <aura:attribute name="searchKeyword" type="String" description="use for store user search input"/>
+    <aura:attribute name="Message" type="boolean" default="false" description="use for display no record found message"/>
+    <aura:attribute name="TotalNumberOfRecord" type="integer" default="0" description="use for display Number of records"/>
+    <aura:attribute name="showsearchresult" type="boolean" default="false" />
+    <aura:attribute name="intervalId" type="Integer" default="0"/>
+
+    <!-- SHOW LOADING SPINNER--> 
+    <lightning:spinner variant="brand" size="medium" aura:id="Id_spinner" class="slds-hide" />
+    <div id="parentDIV" style="overflow:hidden">
+        <p style="position:relative; font weight:bold" id="tofloat">
+            <div Style="font weight:bold; font-style: italic;">Account Tab</div>
+        </p>
+    </div>
+    
+    <div class="slds-m-around_small">
+        <div class="slds-page-header" role="banner">
+            <p class="slds-page-header__title slds-truncate">{!v.total} Accounts • page {!v.page} / {!v.pages}</p>
+            <ui:inputSelect aura:id="recordSize" label="Display Record Per Page: " change="{!c.onSelectChange}">
+                <ui:inputSelectOption text="10" label="10" value="true"/>
+                <ui:inputSelectOption text="15" label="15"/>
+                <ui:inputSelectOption text="20" label="20"/>
+            </ui:inputSelect>
+            <div class="slds-m-around_medium">
+       <!-- SEARCH INPUT AND SEARCH BUTTON--> 
+        <lightning:layout>
+            <lightning:layoutItem size="3" padding="around-small">
+                <lightning:input value="{!v.searchKeyword}"
+                                 required="true"
+                                 placeholder="search Accounts.."
+                                 aura:id="searchField"
+                                 label="Account Name"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3" padding="around-small">
+                <lightning:button onclick="{!c.Search}"
+                                  variant="brand"
+                                  label="Search"
+                                  iconName="utility:search"/> 
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+        </div>
+        
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate" title="Name">Account Name</div>
+                    </th>
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate " title="Name">Phone</div>
+                    </th>
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate" title="Action">Action</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.Accounts}" var="account"> 
+                    <tr>
+                        <th scope="row" >
+                            <div class="slds-truncate" title="{!account.Name}">{!account.Name}</div>
+                        </th>
+                        <th scope="row" >
+                            <div class="slds-truncate" title="{!account.Phone}">{!account.Phone}</div>
+                        </th>
+                        <td>
+                            <button class="slds-button slds-button_success" type="button"   onclick="{!c.edit}" id="{!account.Id}">Edit</button> &nbsp; 
+                            <button class="slds-button slds-button_destructive" type="button"  onclick="{!c.delete}" id="{!account.Id}">Delete</button>
+                        </td>  
+                    </tr>
+                </aura:iteration>	
+            </tbody>
+        </table>
+        <div class="slds-align_absolute-center">            
+            <lightning:button disabled="{!v.page == 1}" variant="brand" label="Previous Page" onclick="{! c.navigate }" />            
+            <lightning:button disabled="{!v.page == v.pages}" aura:id="previousPage" variant="brand" label="Next Page" onclick="{! c.navigate }" />
+        </div>
+    </div>
+    <!--aura:If isTrue="{!v.isEdit}">
+        <lightning:recordEditForm aura:id="edit" objectApiName="Account" recordId="{!v.editAccId}" onsubmit="{!c.onSubmit}">           
+            <lightning:inputField fieldName="Name" />
+            <lightning:inputField fieldName="Phone" />
+            <footer class="slds-modal__footer">
+                <lightning:button aura:id="submit" label="Save" variant="brand" type="submit"  />
+            </footer>
+        </lightning:recordEditForm>
+    </aura:If-->
+    <aura:if isTrue="{!v.isEdit}" >
+        <!--###### MODAL BOX Start From Here ######--> 
+        <div role="dialog" Id="{!v.editAccId}" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModel}">
+                        X <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header99" class="slds-text-heading--medium">Edit Account</h2>
+                </div>
+                <!--###### MODAL BOX BODY Part Start From Here ######-->
+                <div class="slds-modal__content slds-p-around--medium">
+                    
+                    <lightning:recordEditForm aura:id="edit" objectApiName="Account" recordId="{!v.editAccId}" onsubmit="{!c.onSubmit}">           
+                        <lightning:inputField fieldName="Name" />
+                        <lightning:inputField fieldName="Phone" />
+                        <lightning:input aura:id="fileId" onchange="{!c.handleFilesChange}" type="file" name="file" label="Upload Attachment" multiple="false"/>
+                        <div class="slds-text-body_small slds-text-color_error">{!v.fileName} </div>
+                        
+                        <!--use aura:if for show-hide the loading spinner image--> 
+                        <aura:if isTrue="{!v.showLoadingSpinner}">
+                            <div class="slds-text-body_small slds-text-color_error">Uploading... 
+                                <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>'
+                            </div>
+                        </aura:if>
+                        
+                        <br/>
+                        
+                        <button class="slds-button slds-button_brand" Id="{!v.editAccId}" onclick="{!c.doSave}">Upload Attachment</button>
+                        <div class="slds-modal__footer">
+                            <button class="slds-button slds-button--neutral" onclick="{!c.closeModel}" >Cancel</button>
+                            <lightning:button aura:id="submit" label="Update" variant="brand"  onclick="{!c.onSubmit}" type="submit"  />   
+                        </div>
+                    </lightning:recordEditForm>
+                </div>
+                
+                <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        <!--###### MODAL BOX Part END Here ######-->
+    </aura:if>
+    
+    <!-- Delete Account confirm box starts here -->
+    <aura:if isTrue="{!v.isConfirm}">
+        <!--###### MODAL BOX Start From Here ######--> 
+        <div class="demo-only" style="height: 640px;">
+            <section role="dialog" tabindex="-1"  aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>This Accounts has related Contacts.Do you want delete Account with Contacts?</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.cancelDel}">Cancel</button>
+                        <button class="slds-button slds-button_brand" id="{!v.editAccId}" onclick="{!c.Confirm}">Confirm</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+     <aura:if isTrue="{!v.Message}">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">No Records Found...</h2>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    
+</aura:component>

@@ -1,0 +1,47 @@
+<apex:page standardController="Contact" recordSetVar="contacts">
+    <apex:form >
+        <apex:pagemessages />     
+       <apex:pageBlock title="Contacts">    
+         <apex:pageblockButtons location="bottom">
+        <apex:outputPanel id="myButtons">
+            <apex:commandButton value="Previous" action="{!Previous}" />
+            <apex:commandButton value="Next" action="{!Next}" />
+        </apex:outputPanel>
+    </apex:pageblockButtons>
+           <apex:pageBlockSection title="Contacts List">
+               <apex:pageBlockTable value="{!contacts}" var="c">
+               <apex:column headerValue="LastName">
+                <apex:inputField value="{! c.LastName }" />
+                    </apex:column>
+                   <apex:column headervalue="Phone"> 
+                   <apex:inputfield value="{!c.Phone}" />
+                   </apex:column>
+                   <apex:column headervalue="AccountName"> 
+                   <apex:inputfield value="{!c.Account.Name}"/> 
+               </apex:column>
+                   <apex:column headervalue="Mobile"> 
+                   <apex:inputfield value="{!c.MobilePhone}"/> 
+               </apex:column>
+                   <apex:column headervalue="Email"> 
+                   <apex:inputfield value="{!c.Email}"/> 
+               </apex:column>
+                   <apex:column headervalue="Birthdate"> 
+                   <apex:inputfield value="{!c.Birthdate}"/> 
+               </apex:column>
+                   <apex:column headerValue="Action">
+            <apex:outputLink value="{!URLFOR($Action.Contact.Delete, c.Id)}">
+                  Delete
+            </apex:outputLink>
+                <apex:outputLink value="{!URLFOR($Action.Contact.Edit, c.Id)}" target="Blank">
+                  Edit
+            </apex:outputLink>       
+                   </apex:column>
+               </apex:pageBlockTable>
+           </apex:pageBlockSection>
+           <apex:pageblockbuttons location="top">
+               <apex:commandButton value="Save" action="{!save}"/>
+               <apex:commandButton value="Cancel" action="{!cancel}"/>                   
+               </apex:pageblockbuttons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

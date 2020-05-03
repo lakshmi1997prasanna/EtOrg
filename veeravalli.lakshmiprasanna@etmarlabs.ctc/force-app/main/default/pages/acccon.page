@@ -1,0 +1,21 @@
+<apex:page controller="AccountEmail" >
+    <apex:form >
+        <apex:pageBlock >
+            <apex:inputText value="{!email}"/>
+        </apex:pageBlock>
+        <apex:commandButton action="{!searchforAccount}" value="search"/>
+        <apex:pageBlock >            
+                 <apex:pageBlockTable value="{!accdetail}" var="acc" >
+                     <apex:column >
+                     <apex:commandLink onclick="{!contactdetail}" target="top" reRender="conl">{!acc.Name}</apex:commandLink>                                                                   
+                     </apex:column>
+                 </apex:pageBlockTable>        
+            <apex:pageBlockTable value="{!conlist}" var="con" id="conl" >
+                <apex:column value="{!con.Id}"/>
+                <apex:column >
+                    {!con.Name}
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

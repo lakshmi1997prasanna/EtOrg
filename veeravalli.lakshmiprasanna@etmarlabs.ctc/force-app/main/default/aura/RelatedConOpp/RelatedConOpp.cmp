@@ -1,0 +1,155 @@
+<aura:component Controller="AccountLighting" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="Account" type="Account[]"/>
+    <aura:attribute name="accedit" type="Account"/>
+    <aura:attribute name="isedit" type="Boolean" default="false"/>
+    <aura:attribute name="createoppo" type="Boolean" default="false"/>
+    <aura:attribute name="createcontact" type="Boolean" default="false"/>
+    <aura:attribute name="selectedid" type="id" />
+    <aura:attribute name="acctid" type="id" />
+    <aura:attribute name="save" type="Boolean" default="true"/>
+    <aura:attribute name="contact" type="Contact"
+    default="{
+        'SObjectType': 'Contact',
+        'FirstName': '',
+        'LastName': '',
+        'Email': '',
+        'Phone': ''
+    }">            
+    </aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--div style="height: 300px">
+        <lightning:datatable aura:id="dtTable"
+                             columns="{! v.columns }"
+                             data="{! v.data }"
+                             keyField="Id"
+                             errors="{! v.errors }"
+                             draftValues="{! v.draftValues }"
+                             onrowselection="{! c.updateSelectedText }"
+                             disabled = "{! v.hideCheckboxColumn }"
+                             onsave="{! c.handleSaveEdition }"
+                             />
+    </div-->
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_4-of-12">
+    <lightning:card iconName="standard:account" class="slds-text-heading_small"  title="List of Accounts" >
+        <div class="slds-scrollable_y" style="height: 37rem; width: 27rem;">
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate" title="Action">Action</div>
+                    </th>
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate" title="Name">Account Name</div>
+                    </th>
+                    <th scope="col" class="thCss">
+                        <div class="slds-truncate" title="Name">Phone</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.Account}" var="acc" indexVar="index"> 
+                   <tr>
+                        <th scope="row" >
+                            <ui:inputCheckbox aura:id="rowSelectionCheckboxId" value="false" text="{!acc.Id}" change="{!c.onCheckboxChange}" />
+                        </th>
+                        <th scope="row" >
+                            <lightning:input aura:id="disableAcc"  value="{!acc.Name}" />
+                        </th>
+                        <th scope="row" >
+                            <lightning:input aura:id="disableAcc"  value="{!acc.Phone}"/>
+                        </th>
+                        <td>
+                            <button class="slds-button slds-button_success" type="button"   onclick="{!c.edit}" id="{!acc.Id}">Edit</button> &nbsp; 
+                        </td> 
+                       
+                    </tr>			
+                </aura:iteration>	
+            </tbody>
+        </table>
+        </div>
+    </lightning:card>
+        </div>
+        <aura:if isTrue="{!v.isedit}">
+        <div class="slds-col slds-size_4-of-12">
+            <lightning:card iconName="standard:contact" title="Related Contacts" >
+                <aura:set attribute="actions">
+                     <div class="slds-no-flex">
+        <button class="slds-button slds-button_neutral" id="{!v.selectedid}" onclick="{!c.new}">New</button>
+      </div>
+        </aura:set>
+                </lightning:card>
+            <div class="slds-table--header-fixed_container">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table--header-fixed">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col" >
+                                <div class="slds-truncate slds-cell-fixed" title="Name">Name</div>
+                            </th>
+                            <th scope="col" >
+                                <div class="slds-truncate slds-cell-fixed" title="Phone">Phone</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.accedit.Contacts}" var="Con"> 
+                            <tr>
+                                <th scope="row" >
+                                    <div class="slds-truncate" >{!Con.Name}</div>
+                                </th>
+                                <th scope="row" >
+                                    <div class="slds-truncate" >{!Con.Phone}</div>
+                                </th>
+                            </tr>
+                        </aura:iteration>	
+                    </tbody>
+                </table>
+            </div>
+             <lightning:card iconName="standard:opportunity" title="Related Opportunities" >
+                </lightning:card>
+            <div class="slds-table--header-fixed_container">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table--header-fixed">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col" >
+                                <div class="slds-truncate slds-cell-fixed" title="Name">Name</div>
+                            </th>
+                            <th scope="col" >
+                                <div class="slds-truncate slds-cell-fixed" title="Phone">Phone</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.accedit.Opportunities}" var="Opp"> 
+                            <tr>
+                                <th scope="row" >
+                                    <div class="slds-truncate" >{!Opp.Name}</div>
+                                </th>
+                                <th scope="row" >
+                                    <div class="slds-truncate" >{!Opp.Phone}</div>
+                                </th>
+                            </tr>
+                        </aura:iteration>	
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </aura:if>
+        <div class="slds-col slds-size_4-of-12">
+            <aura:if isTrue="{!v.createcontact}">
+                <lightning:card iconName="standard:contact" title="Create Contact" >
+                <lightning:recordEditForm aura:id="recordViewForm"
+                                          objectApiName="Contact">
+                    <lightning:messages />
+                    <lightning:inputField fieldName="FirstName"  />
+                    <lightning:inputField fieldName="LastName" />
+                    <lightning:inputField fieldName="Phone" />
+                    <lightning:inputField fieldName="AccountId" value="{!v.acctid}" />
+                    <lightning:button variant="brand" label="Save"  type="submit" />
+                    
+                </lightning:recordEditForm>
+            </lightning:card>
+            </aura:if>
+        </div>
+</div>
+</aura:component>

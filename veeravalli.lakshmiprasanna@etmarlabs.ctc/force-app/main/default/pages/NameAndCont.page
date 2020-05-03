@@ -1,0 +1,24 @@
+<apex:page controller="NameAndRelatedCont" >
+    <apex:form >
+        <apex:pageMessages />
+        <apex:pageBlock >
+
+            <apex:inputText value="{!name}"/>
+
+        </apex:pageBlock>
+
+        <apex:commandButton action="{!searchContactFromName}" value="Search"/>
+  
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{!ContObj}" var="con">
+            <apex:column value="{!con.id}"/>
+                
+             <apex:column >
+                 <apex:outputLink value="/{!con.Id}" target="_blank"> {!con.Name} </apex:outputLink>
+
+                </apex:column>
+                
+                </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

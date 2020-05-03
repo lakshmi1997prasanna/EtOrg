@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<aura:attribute name="test_contact" type="Contact"/> 
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+<lightning:inputField aura:id="test_lookup_field" value="{!v.test_contact.AccountId}"/>
+</aura:component>
